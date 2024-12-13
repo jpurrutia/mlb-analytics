@@ -2,6 +2,8 @@
     - creates the 'mlb-analytics' folder in your local projects folders
 
 2. Pip install uv
+3. uv venv --python 3.11  
+4. source .venv/bin/activate
 
 3. UV python install
 https://docs.astral.sh/uv/guides/projects/
