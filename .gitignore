@@ -19,3 +19,5 @@ refactored_mlb_rest_api_pipeline.py
 refactored_rest_api_pipeline.py
 
 *.duckdb
+
+.dlt/
