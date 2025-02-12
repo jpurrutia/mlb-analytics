@@ -22,7 +22,7 @@ def read_game_ids() -> Iterator[str]:
             """
             SELECT DISTINCT game_pk
             FROM mlb_data.mlb_schedule__dates__games
-            WHERE official_date BETWEEN '2024-09-01'::text AND CURRENT_DATE::text
+            WHERE official_date BETWEEN '2022-04-01'::text AND CURRENT_DATE::text
             AND series_description = 'Regular Season';
             """
         )
