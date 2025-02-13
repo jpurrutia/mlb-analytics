@@ -1,6 +1,23 @@
 version: '3.8'
 
 services:
+  mlpythonbase:
+    build: ./mlpythonbase
+    container_name: mlpythonbase
+    image: mlpythonbase
+    depends_on:
+      - pythonbase
+    # Expose Jupyter's default command to run Jupyter in the container
+    command: >
+      jupyter notebook
+      --ip=0.0.0.0
+      --port=8888
+      --no-browser
+      --allow-root
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./mlpythonbase/notebooks:/apps/notebooks
 
   pythonbase:
     build: ./pythonbase

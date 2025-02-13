@@ -21,3 +21,5 @@ refactored_rest_api_pipeline.py
 *.duckdb
 
 .dlt/
+
+.ipynb_checkpoints
