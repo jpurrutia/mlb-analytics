@@ -17,7 +17,7 @@ services:
     ports:
       - "8888:8888"
     volumes:
-      - ./mlpythonbase/notebooks:/apps/notebooks
+      - ./mlpythonbase/notebooks:/apps/notebooks # Mount the notebooks folder to /apps/notebooks in the container
 
   pythonbase:
     build: ./pythonbase
@@ -42,7 +42,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
     volumes:
-      - pgduckdb_data:/var/lib/postgresql/data
+      - pgduckdb_data:/var/lib/postgresql/data # persisten volume for DB storage
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "postgres"]
       retries: 5
