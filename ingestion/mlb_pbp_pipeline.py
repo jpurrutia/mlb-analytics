@@ -79,7 +79,10 @@ def mlbam_pbp_resource() -> Iterator[Dict[str, Any]]:
 
 @dlt.source
 def mlbam_pbp_source():
-    """ """
+    """
+    this could be the base url and shared credentials that are passed to different resources
+    Resources are children of the sources.
+    """
     return mlbam_pbp_resource()
 
 
