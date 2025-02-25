@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  mlpythonbase:
+    build: ./mlpythonbase
+    container_name: mlpythonbase
+    image: mlpythonbase
+    depends_on:
+      - pythonbase
+    # Expose Jupyter's default command to run Jupyter in the container
+    command: >
+      jupyter notebook
+      --ip=0.0.0.0
+      --port=8888
+      --no-browser
+      --allow-root
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./mlpythonbase/notebooks:/apps/notebooks # Mount the notebooks folder to /apps/notebooks in the container
+
+  pythonbase:
+    build: ./pythonbase
+    container_name: pythonbase
+    image: pythonbase
+    depends_on:
+      - linuxbase
+
+  linuxbase:
+    build: ./linuxbase
+    container_name: linuxbase
+    image: linuxbase
+
+
+  pgduckdb:
+    image: pgduckdb/pgduckdb:17-v0.1.0
+    container_name: pgduckdb
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - pgduckdb_data:/var/lib/postgresql/data # persisten volume for DB storage
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      retries: 5
+      
+volumes:
+  pgduckdb_data:
+   driver: local
