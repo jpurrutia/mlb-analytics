@@ -164,6 +164,8 @@ target/               # dbt compiled models & run artifacts
 dbt_packages/         # Packages installed from dbt Hub/packages.yml
 logs/                 # dbt logs (adjust if you keep them in a subfolder)
 **/profiles.yml       # If stored in-repo & may contain credentials
+dbtbase/mlb_dbt/profiles.yml
+
 
 # ======================================================================
 # Data / local artifacts
