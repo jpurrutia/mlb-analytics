@@ -1,7 +1,0 @@
-pydantic
-flask
-ruff
-requests
-pandas
-pybaseball
-psycopg2-binary
