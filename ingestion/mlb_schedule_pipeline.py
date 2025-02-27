@@ -54,7 +54,8 @@ def mlb_schedule_source(
 
 if __name__ == "__main__":
     end_date = datetime.now().strftime("%Y-%m-%d")
-    start_date = (datetime.now() - timedelta(days=795)).strftime("%Y-%m-%d")
+    start_date = (datetime.now() - timedelta(days=2000)).strftime("%Y-%m-%d")
+    print(start_date, end_date)
 
     pipeline = dlt.pipeline(
         pipeline_name="mlb_schedule_pipeline",
