@@ -65,3 +65,47 @@ Jupyter Notebooks:
 
 password: 
 - mlbanalytics
+
+Data Modeling:
+
+Conceptual:
+
+Source Tables:
+- players
+- schedule
+- auction draft picks
+- pbp
+- season
+- mlb_teams 
+- fantasy_teams
+- fantasy_team_budgets
+
+Aggregate Tables:
+- game aggregate
+- season aggregate w/ draft prices
+- fantasy team analytics
+- position leaderboards
+
+Draft Analytics Table:
+- Projected Auction Prices - regression (multi model regression)
+- Draft Recommendations Model:
+  - Player valuation based on performance metrics
+  - Position-specific multipliers
+  - Prospect discounting
+  - Durability and performance premiums
+  - Recommendation tiers (Strong Buy to Strong Sell)
+
+Key Models:
+```
+models/analytics/
+├── fact_hitting_performance.sql    # Hitting statistics
+├── fact_pitching_performance.sql   # Starting pitcher statistics
+├── fact_relief_pitching.sql       # Relief pitcher statistics
+├── fantasy_player_projections.sql  # Combined player projections
+└── draft_recommendations.sql       # Final draft valuations and recommendations
+```
+
+ML Tables:
+- table for player clustering players
+- table for survival analysis
+- table for player projections
