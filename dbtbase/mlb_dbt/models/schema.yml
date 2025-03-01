@@ -1,0 +1,45 @@
+version: 2
+
+models:
+  - name: stg_mlb_pbp
+    description: Staging model for MLB play-by-play data
+    columns:
+      - name: game_pk
+        description: Unique identifier for each game
+      - name: matchup__batter__id
+        description: Unique identifier for the batter
+      - name: matchup__pitcher__id
+        description: Unique identifier for the pitcher
+
+  - name: stg_mlb_players
+    description: Staging model for MLB players data
+    columns:
+      - name: player_id
+        description: Unique identifier for each player
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_draft_prices
+    description: Staging model for fantasy baseball draft prices
+    columns:
+      - name: player_id
+        description: Unique identifier for each player
+      - name: season
+        description: The season year
+
+  - name: fact_hitting_performance
+    description: Fact table containing batting statistics by player and season
+    columns:
+      - name: player_id
+        description: Unique identifier for each player
+        tests:
+          - not_null
+      - name: season
+        description: The season year
+        tests:
+          - not_null
+      - name: batting_average
+        description: Player's batting average for the season
+      - name: ops
+        description: On-base plus slugging percentage

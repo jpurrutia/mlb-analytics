@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: mlb_data
+    database: mlb_data  # matches existing model
+    schema: mlb_data   # matches existing model
+    tables:
+      - name: mlb_pbp
+      - name: mlb_players
+      - name: draft_prices
+      - name: mlb_schedule__dates__games
