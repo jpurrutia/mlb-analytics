@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from typing import Dict, Any
+import os
 
 import requests
 
@@ -59,7 +60,7 @@ if __name__ == "__main__":
 
     pipeline = dlt.pipeline(
         pipeline_name="mlb_schedule_pipeline",
-        destination="postgres",
+        destination=dlt.destinations.postgres,
         dataset_name="mlb_data",
     )
 

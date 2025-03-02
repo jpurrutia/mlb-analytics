@@ -1,0 +1,36 @@
+version: 2
+
+models:
+  - name: ml/draft_recommendations
+    description: Machine learning based draft recommendations and valuations
+    columns:
+      - name: player_id
+        description: Unique identifier for the player
+        tests:
+          - not_null
+      - name: analysis_date
+        description: Date of the analysis
+        tests:
+          - not_null
+      - name: predicted_value
+        description: ML-predicted auction value
+      - name: value_confidence
+        description: Confidence score for the prediction
+      - name: tier
+        description: Player tier classification
+        tests:
+          - accepted_values:
+              values: ['S', 'A', 'B', 'C', 'D', 'F']
+      - name: buy_recommendation
+        description: Buy/Hold/Sell recommendation
+        tests:
+          - accepted_values:
+              values: ['Strong Buy', 'Buy', 'Hold', 'Sell', 'Strong Sell']
+      - name: risk_profile
+        description: Risk assessment profile
+      - name: projected_roi
+        description: Projected Return on Investment
+      - name: position_scarcity_factor
+        description: Position scarcity adjustment factor
+      - name: keeper_value
+        description: Long-term keeper league value

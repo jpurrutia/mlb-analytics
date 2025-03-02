@@ -4,10 +4,8 @@ from typing import Dict, Any
 from collections.abc import Iterator
 
 import dlt
-from dlt.sources.rest_api import RESTAPIConfig, rest_api_source
-from psycopg2 import OperationalError, DatabaseError
 
-from db_utils import connect_to_db
+from ingestbase.db_utils import connect_to_db
 
 
 def read_game_ids() -> Iterator[str]:
@@ -89,7 +87,7 @@ def mlbam_pbp_source():
 def run_mlbam_pipeline():
     pipeline = dlt.pipeline(
         pipeline_name="mlb_pbp_pipeline",
-        destination="postgres",
+        destination=dlt.destinations.postgres,
         dataset_name="mlb_data",
     )
     load_info = pipeline.run(mlbam_pbp_source())

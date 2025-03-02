@@ -1,10 +1,8 @@
-{{
-    config(
-        materialized='incremental',
-        unique_key=['batter_id', 'game_date'],
-        incremental_strategy='merge'
-    )
-}}
+{{ config(
+    materialized='incremental',
+    unique_key=['batter_id', 'game_date'],
+    incremental_strategy='merge'
+) }}
 
 with daily_batting_stats as (
     select 

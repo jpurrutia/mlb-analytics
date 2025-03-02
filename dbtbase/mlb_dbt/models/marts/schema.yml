@@ -1,86 +1,112 @@
 version: 2
 
+# This is the root schema file for the marts directory.
+# Each subdirectory (core, analytics, ml) has its own detailed schema.yml file.
+
+groups:
+  - name: core
+    owner:
+      name: "Data Engineering"
+      email: "data@example.com"
+  
+  - name: analytics
+    owner:
+      name: "Analytics Team"
+      email: "analytics@example.com"
+  
+  - name: ml
+    owner:
+      name: "ML Team"
+      email: "ml@example.com"
+
 models:
   - name: daily_player_stats
-    description: Daily snapshot of player batting statistics from MLB games
+    description: "Daily aggregated batting statistics for MLB players"
+    schema: marts_core
     columns:
-      - name: player_id
-        description: Unique identifier for the player
+      - name: batter_id
+        description: "Unique identifier for the batter"
         tests:
           - not_null
+      
       - name: player_name
-        description: Full name of the player
-      - name: game_date
-        description: Date of the game
+        description: "Full name of the player"
         tests:
           - not_null
-      - name: home_team
-        description: Home team abbreviation
-      - name: away_team
-        description: Away team abbreviation
+      
+      - name: game_date
+        description: "Date of the game"
+        tests:
+          - not_null
+      
       - name: plate_appearances
-        description: Number of plate appearances in the game
+        description: "Number of plate appearances"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+      
       - name: singles
-        description: Number of singles hit in the game
+        description: "Number of singles hit"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+      
       - name: doubles
-        description: Number of doubles hit in the game
+        description: "Number of doubles hit"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+      
       - name: triples
-        description: Number of triples hit in the game
+        description: "Number of triples hit"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+      
       - name: home_runs
-        description: Number of home runs hit in the game
+        description: "Number of home runs hit"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+      
       - name: walks
-        description: Number of walks in the game
+        description: "Number of walks"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+      
       - name: strikeouts
-        description: Number of strikeouts in the game
+        description: "Number of strikeouts"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+      
       - name: total_hits
-        description: Total number of hits (singles + doubles + triples + home_runs)
+        description: "Total number of hits (singles + doubles + triples + home runs)"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+      
       - name: batting_avg
-        description: Batting average for the game (hits/plate appearances)
+        description: "Batting average (hits / plate appearances)"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 1
+      
       - name: on_base_pct
-        description: On-base percentage for the game ((hits + walks)/plate appearances)
-      - name: _etl_loaded_at
-        description: Timestamp when the record was loaded
-
-  - name: daily_pitching_stats
-    description: Daily snapshot of pitcher statistics from MLB games
-    columns:
-      - name: player_id
-        description: Unique identifier for the pitcher
+        description: "On-base percentage ((hits + walks) / plate appearances)"
         tests:
           - not_null
-      - name: player_name
-        description: Full name of the pitcher
-      - name: game_date
-        description: Date of the game
-        tests:
-          - not_null
-      - name: home_team
-        description: Home team abbreviation
-      - name: away_team
-        description: Away team abbreviation
-      - name: batters_faced
-        description: Number of batters faced in the game
-      - name: strikeouts
-        description: Number of strikeouts recorded
-      - name: walks
-        description: Number of walks allowed
-      - name: hits_allowed
-        description: Total number of hits allowed
-      - name: home_runs_allowed
-        description: Number of home runs allowed
-      - name: innings_pitched
-        description: Number of innings pitched
-      - name: baserunners_allowed
-        description: Total number of baserunners allowed (hits + walks + HBP)
-      - name: strikeout_rate
-        description: Strikeouts per batter faced
-      - name: walk_rate
-        description: Walks per batter faced
-      - name: hits_per_batter
-        description: Hits allowed per batter faced
-      - name: whip
-        description: Walks and Hits per Inning Pitched
-      - name: k_per_9
-        description: Strikeouts per 9 innings
-      - name: _etl_loaded_at
-        description: Timestamp when the record was loaded
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 1
