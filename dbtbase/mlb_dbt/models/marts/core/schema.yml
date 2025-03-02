@@ -1,0 +1,185 @@
+version: 2
+
+models:
+  - name: core/daily_player_stats
+    description: Daily snapshot of player batting statistics from MLB games
+    columns:
+      - name: player_id
+        description: Unique identifier for the player
+        tests:
+          - not_null
+      - name: player_name
+        description: Full name of the player
+        tests:
+          - not_null
+      - name: game_date
+        description: Date of the game
+        tests:
+          - not_null
+      - name: home_team
+        description: Home team abbreviation
+      - name: away_team
+        description: Away team abbreviation
+      - name: plate_appearances
+        description: Number of plate appearances in the game
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+      - name: singles
+        description: Number of singles hit in the game
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+      - name: doubles
+        description: Number of doubles hit in the game
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+      - name: triples
+        description: Number of triples hit in the game
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+      - name: home_runs
+        description: Number of home runs hit in the game
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+      - name: walks
+        description: Number of walks in the game
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+      - name: strikeouts
+        description: Number of strikeouts in the game
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+      - name: total_hits
+        description: Total number of hits (singles + doubles + triples + home_runs)
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+      - name: batting_avg
+        description: Batting average for the game (hits/plate appearances)
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 1
+      - name: on_base_pct
+        description: On-base percentage for the game ((hits + walks)/plate appearances)
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 1
+      - name: _etl_loaded_at
+        description: Timestamp when the record was loaded
+        tests:
+          - not_null
+
+  - name: core/daily_pitching_stats
+    description: Daily snapshot of pitcher statistics from MLB games
+    columns:
+      - name: player_id
+        description: Unique identifier for the pitcher
+        tests:
+          - not_null
+      - name: player_name
+        description: Full name of the pitcher
+      - name: game_date
+        description: Date of the game
+        tests:
+          - not_null
+      - name: home_team
+        description: Home team abbreviation
+      - name: away_team
+        description: Away team abbreviation
+      - name: batters_faced
+        description: Number of batters faced in the game
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+      - name: strikeouts
+        description: Number of strikeouts recorded
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+      - name: walks
+        description: Number of walks allowed
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+      - name: hits_allowed
+        description: Total number of hits allowed
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+      - name: home_runs_allowed
+        description: Number of home runs allowed
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+      - name: innings_pitched
+        description: Number of innings pitched
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+      - name: baserunners_allowed
+        description: Total number of baserunners allowed (hits + walks + HBP)
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+      - name: strikeout_rate
+        description: Strikeouts per batter faced
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 1
+      - name: walk_rate
+        description: Walks per batter faced
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 1
+      - name: hits_per_batter
+        description: Hits allowed per batter faced
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 1
+      - name: whip
+        description: Walks and Hits per Inning Pitched
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+      - name: k_per_9
+        description: Strikeouts per 9 innings
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+      - name: _etl_loaded_at
+        description: Timestamp when the record was loaded
+        tests:
+          - not_null

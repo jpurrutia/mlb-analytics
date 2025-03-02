@@ -1,0 +1,102 @@
+version: 2
+
+models:
+  - name: analytics/fact_hitting_performance
+    description: Advanced hitting metrics and performance analysis
+    columns:
+      - name: player_id
+        description: Unique identifier for the player
+        tests:
+          - not_null
+      - name: game_date
+        description: Date of the game
+        tests:
+          - not_null
+      - name: ops
+        description: On-base Plus Slugging (OPS)
+      - name: woba
+        description: Weighted On-base Average
+      - name: iso
+        description: Isolated Power (SLG - AVG)
+      - name: babip
+        description: Batting Average on Balls in Play
+
+  - name: analytics/fact_pitching_performance
+    description: Advanced pitching metrics and performance analysis
+    columns:
+      - name: player_id
+        description: Unique identifier for the pitcher
+        tests:
+          - not_null
+      - name: game_date
+        description: Date of the game
+        tests:
+          - not_null
+      - name: fip
+        description: Fielding Independent Pitching
+      - name: xfip
+        description: Expected Fielding Independent Pitching
+      - name: era_plus
+        description: ERA+ (park and league adjusted ERA)
+      - name: whip
+        description: Walks and Hits per Inning Pitched
+
+  - name: analytics/fact_relief_pitching
+    description: Relief pitcher specific metrics and analysis
+    columns:
+      - name: player_id
+        description: Unique identifier for the relief pitcher
+        tests:
+          - not_null
+      - name: game_date
+        description: Date of the game
+        tests:
+          - not_null
+      - name: inherited_runners
+        description: Number of inherited runners
+      - name: inherited_scored
+        description: Number of inherited runners that scored
+      - name: shutdowns
+        description: High-leverage successful outings
+      - name: meltdowns
+        description: High-leverage unsuccessful outings
+
+  - name: analytics/fantasy_player_projections
+    description: Fantasy baseball player projections and valuations
+    columns:
+      - name: player_id
+        description: Unique identifier for the player
+        tests:
+          - not_null
+      - name: projection_date
+        description: Date of the projection
+        tests:
+          - not_null
+      - name: projected_points
+        description: Projected fantasy points
+      - name: confidence_interval
+        description: Confidence level of projection
+      - name: risk_score
+        description: Risk assessment score
+      - name: value_over_replacement
+        description: Value Over Replacement Player (VORP)
+
+  - name: analytics/analytics_techical_run_creation
+    description: Technical analysis of run creation and run expectancy
+    columns:
+      - name: player_id
+        description: Unique identifier for the player
+        tests:
+          - not_null
+      - name: game_date
+        description: Date of the game
+        tests:
+          - not_null
+      - name: run_expectancy
+        description: Base-out run expectancy
+      - name: run_creation
+        description: Runs created metric
+      - name: win_probability_added
+        description: Win Probability Added (WPA)
+      - name: clutch_score
+        description: Performance in high-leverage situations

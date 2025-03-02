@@ -1,41 +1,114 @@
-# Set up the project with Docker Compose
+# Default target
+.PHONY: help
+help:
+	@echo "MLB Analytics Project Make Commands"
+	@echo ""
+	@echo "Docker Management:"
+	@echo "  setup         - Build and start all containers"
+	@echo "  rebuild       - Force rebuild and start containers"
+	@echo "  stop         - Stop all containers"
+	@echo "  clean        - Remove all containers, volumes, and images"
+	@echo "  status       - Check running containers"
+	@echo "  logs         - Show container logs (use c=container_name)"
+	@echo ""
+	@echo "Development Shells:"
+	@echo "  exec-pythonbase  - Shell into Python container"
+	@echo "  exec-postgres    - PostgreSQL shell"
+	@echo "  exec-linuxbase   - Shell into Linux container"
+	@echo ""
+	@echo "Data Pipeline:"
+	@echo "  ingest-mlb      - Run MLB data ingestion pipeline"
+	@echo "  ingest-fantasy  - Run fantasy data ingestion"
+	@echo ""
+	@echo "DBT Commands:"
+	@echo "  dbt-run        - Run all dbt models"
+	@echo "  dbt-test       - Run dbt tests"
+	@echo "  dbt-docs       - Generate dbt documentation"
+	@echo "  dbt-clean      - Clean dbt artifacts"
+	@echo ""
+	@echo "ML Pipeline:"
+	@echo "  train-models   - Train ML models"
+	@echo "  evaluate       - Evaluate model performance"
+	@echo ""
+	@echo "Quality Checks:"
+	@echo "  lint          - Run code linting"
+	@echo "  test          - Run Python tests"
+	@echo "  check-all     - Run all quality checks"
+
+# Docker Management
 setup:
 	@docker compose build
 	@docker compose up -d
 
-# Rebuild and start the containers (force rebuild)
 rebuild:
 	@docker compose build --no-cache
 	@docker compose up -d
 
-# Stop the containers gracefully
 stop:
 	@docker compose down
 
-# Execute a shell inside the pythonbase container
-exec-pythonbase:
-	@docker compose exec pythonbase bash
+clean:
+	@docker compose down -v --rmi all --remove-orphans
 
-# Execute a PostgreSQL shell
-exec-postgres:
-	@docker compose exec pgduckdb psql -U postgres -d postgres
-
-# # Execute a DuckDB shell
-# exec-duckdb:
-# 	@docker compose exec pgduckdb duckdb
-
-# Execute a shell inside the linuxbase container
-exec-linuxbase:
-	@docker compose exec linuxbase bash
-
-# Check the running containers
 status:
 	@docker compose ps
 
-# Show logs of all containers or a specific one
 logs:
 	@docker compose logs -f $(c)
 
-# Clean up containers, volumes, and images
-clean:
-	@docker compose down -v --rmi all --remove-orphans
+# Development Shells
+exec-pythonbase:
+	@docker compose up -d pythonbase
+	@docker compose exec pythonbase bash
+
+exec-postgres:
+	@docker compose up -d pgduckdb
+	@docker compose exec pgduckdb psql -U postgres -d postgres
+
+exec-linuxbase:
+	@docker compose up -d linuxbase
+	@docker compose exec linuxbase bash
+
+# Data Pipeline
+ingest-mlb:
+	@docker compose up -d ingestbase
+	# @docker compose exec ingestbase python -m ingestbase.mlb_schedule_pipeline
+	#@docker compose exec ingestbase python -m ingestbase.mlb_players_pipeline
+	@docker compose exec ingestbase python -m ingestbase.mlb_pbp_pipeline
+
+#ingest-fantasy:
+#	@docker compose exec pythonbase python -m ingestion.fantasy_draft_pipeline
+
+# DBT Commands
+dbt-run:
+	@docker compose up -d dbtbase
+	@docker compose exec dbtbase bash -c "cd mlb_dbt && dbt run"
+
+dbt-test:
+	@docker compose up -d dbtbase
+	@docker compose exec dbtbase bash -c "cd mlb_dbt && dbt test"
+
+dbt-docs:
+	@docker compose up -d dbtbase
+	@docker compose exec dbtbase bash -c "cd mlb_dbt && dbt docs generate && dbt docs serve"
+
+dbt-clean:
+	@docker compose up -d dbtbase
+	@docker compose exec dbtbase bash -c "cd mlb_dbt && dbt clean"
+
+# ML Pipeline
+#train-models:
+#	@docker compose exec mlpythonbase python -m ml.train_models
+
+#evaluate:
+#	@docker compose exec mlpythonbase python -m ml.evaluate_models
+
+# Quality Checks
+#lint:
+#	@docker compose exec pythonbase ruff check .
+
+test:
+	@docker compose up -d pythonbase
+	@docker compose exec pythonbase pytest tests/
+
+check-all: test dbt-test
