@@ -188,3 +188,6 @@ rest_api_pipeline.duckdb
 # Misc
 # ======================================================================
 uv.lock  # If ephemeral, remove if you actually want this in source control
+
+# windsurf rules
+.windsurfrules
