@@ -185,7 +185,7 @@ models/marts/
 ### Implementation Tasks
 
 1. Data Integration Phase
-- [ ] Set up Statcast API integration
+- [ ] Set up BaseballSavant API integration
 - [ ] Implement weather data pipeline
 - [ ] Create league averages tables
 - [ ] Build fantasy scoring configuration
